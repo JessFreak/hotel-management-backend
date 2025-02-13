@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const clientSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: true,
@@ -26,8 +26,13 @@ const clientSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  role: {
+    type: String,
+    enum: ['client', 'receptionist'],
+    default: 'client',
+  }
 });
 
-const Client = mongoose.model('clients', clientSchema);
+const User = mongoose.model('users', userSchema);
 
-export default Client;
+export default User;
