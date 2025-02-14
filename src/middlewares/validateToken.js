@@ -16,12 +16,8 @@ export const validateToken = async (req, res, next) => {
 
     const user = await User
       .findById(id)
-      .select('-password -__v')
-      .lean()
+      .select('-password')
     if (!user) next(createError(404, 'User not found'));
-
-    delete user._id;
-    user.id = id;
 
     req.user = user;
     next();

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { toJSONTransform } from '../utils.js';
 
 const discountSchema = new mongoose.Schema({
   name: {
@@ -10,6 +11,8 @@ const discountSchema = new mongoose.Schema({
     required: true
   }
 });
+
+toJSONTransform(discountSchema);
 
 const Discount = mongoose.model('discounts', discountSchema);
 

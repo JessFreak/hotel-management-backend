@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { toJSONTransform } from '../utils.js';
 
 const reservationSchema = new mongoose.Schema({
   clientId: {
@@ -30,6 +31,8 @@ const reservationSchema = new mongoose.Schema({
     trim: true
   }
 });
+
+toJSONTransform(reservationSchema);
 
 const Reservation = mongoose.model('reservations', reservationSchema);
 

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { toJSONTransform } from '../utils.js';
 
 const userSchema = new mongoose.Schema({
   firstName: {
@@ -32,6 +33,8 @@ const userSchema = new mongoose.Schema({
     default: 'client',
   }
 });
+
+toJSONTransform(userSchema);
 
 const User = mongoose.model('users', userSchema);
 
