@@ -18,7 +18,7 @@ const registerUser = async (req, res) => {
   });
 
   await newUser.save();
-  res.status(201).json({ userId: newUser._id });
+  res.status(201);
 };
 
 const loginUser = async (req, res, next) => {

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { toJSONTransform } from '../utils.js';
 
 const roomSchema = new mongoose.Schema({
   number: {
@@ -26,6 +27,8 @@ const roomSchema = new mongoose.Schema({
     required: true,
   }
 });
+
+toJSONTransform(roomSchema);
 
 const Room = mongoose.model('rooms', roomSchema);
 

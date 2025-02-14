@@ -2,8 +2,7 @@ import express from 'express';
 import 'dotenv/config';
 import { connectDB } from './src/configs/db.js';
 import userRoutes from './src/routes/userRoutes.js';
-import createError from 'http-errors';
-import { StatusCodes } from 'http-status-codes';
+import roomRoutes from './src/routes/roomRoutes.js';
 import { errorHandler } from './src/middlewares/errorHandler.js';
 
 await connectDB();
@@ -12,10 +11,7 @@ const app = express();
 app.use(express.json());
 
 app.use('/users', userRoutes);
-
-app.get('/', (req, res, next) => {
-  next(createError(StatusCodes.NOT_FOUND, 'Resource Not Found'));
-});
+app.use('/rooms', roomRoutes);
 
 app.use(errorHandler);
 
