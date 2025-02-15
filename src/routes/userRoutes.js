@@ -1,16 +1,18 @@
-import express from 'express';
-import { getCurrentUser, loginUser, registerUser } from '../controllers/userController.js';
-import { registerDTO } from '../middlewares/dtos/registerDTO.js';
-import { loginDTO } from '../middlewares/dtos/loginDTO.js';
-import { validateUniqueUser } from '../middlewares/validateUniqueUser.js';
+import { Router } from 'express';
+import { checkDiscountExist } from '../middlewares/checkDiscountExist.js';
+import { checkUserExist } from '../middlewares/checkUserExist.js';
+import { addUserDiscount, getUserById, getUserDiscounts, getUsers } from '../controllers/userController.js';
+import { receptionistGuard } from '../middlewares/receptionistGuard.js';
 import { validateToken } from '../middlewares/validateToken.js';
 
-const router = express.Router();
+const userRouter = Router();
 
-router.post('/register', ...registerDTO, validateUniqueUser, registerUser);
+userRouter.get('/', validateToken, receptionistGuard, getUsers);
 
-router.post('/login', ...loginDTO, loginUser);
+userRouter.get('/:id', validateToken, receptionistGuard, checkUserExist, getUserById);
 
-router.get('/me', validateToken, getCurrentUser);
+userRouter.get('/:id/discounts', validateToken, receptionistGuard, checkUserExist, getUserDiscounts);
 
-export default router;
+userRouter.post('/:id/discounts', validateToken, receptionistGuard, checkUserExist, checkDiscountExist, addUserDiscount);
+
+export default userRouter;

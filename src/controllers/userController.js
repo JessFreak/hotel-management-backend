@@ -1,54 +1,42 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import ClientDiscount from '../models/ClientDiscount.js';
 import createError from 'http-errors';
 
-const registerUser = async (req, res) => {
-  const { firstName, lastName, middleName, passportNumber, email, password } = req.body;
+export const getUsers = async (req, res) => {
+  const users = await User.find({});
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  res.status(200).json(users);
+}
 
-  const newUser = new User({
-    firstName,
-    lastName,
-    middleName,
-    passportNumber,
-    email,
-    password: hashedPassword,
-  });
+export const getUserById = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
 
-  await newUser.save();
-  res.status(201);
+  res.status(200).json(user);
+}
+
+export const getUserDiscounts = async (req, res) => {
+  const { id } = req.params;
+
+  const discounts = await ClientDiscount.find({ clientId: id })
+    .populate('discountId', 'name percentage')
+    .select('discountId')
+
+  res.status(200).json(discounts.map(d => d.discountId));
 };
 
-const loginUser = async (req, res, next) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email });
-  if (!user) {
-    return next(createError(400, 'User with such email not found'));
+
+export const addUserDiscount = async (req, res, next) => {
+  const { id } = req.params;
+  const { discountId } = req.query;
+
+  const existingDiscount = await ClientDiscount.findOne({ clientId: id, discountId });
+  if (existingDiscount) {
+    return next(createError(400, 'User already has this discount'));
   }
 
-  const passwordMatch = await bcrypt.compare(password, user.password);
-  if (!passwordMatch) {
-    return next(createError(400, 'Password is not valid'));
-  }
+  const newUserDiscount = new ClientDiscount({ clientId: id, discountId });
+  await newUserDiscount.save();
 
-  const accessToken = jwt.sign({
-      user: {
-        email: user.email,
-        id: user.id,
-      },
-    },
-    process.env.JWT_SECERT,
-    { expiresIn: '3d' }
-  );
-
-  res.status(200).json({ accessToken });
-  next();
-};
-
-const getCurrentUser = (req, res) => {
-  res.json(req.user);
-};
-
-export { registerUser, loginUser, getCurrentUser };
+  res.status(201).json();
+}

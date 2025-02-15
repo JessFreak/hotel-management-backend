@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-toJSONTransform(userSchema);
+toJSONTransform(userSchema, ['password']);
 
 const User = mongoose.model('users', userSchema);
 

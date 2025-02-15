@@ -7,7 +7,7 @@ const discountSchema = new mongoose.Schema({
     required: true,
   },
   percentage: {
-    type: mongoose.Types.Decimal128,
+    type: Number,
     required: true
   }
 });

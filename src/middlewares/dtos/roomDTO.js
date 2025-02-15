@@ -1,5 +1,6 @@
 import { body } from 'express-validator';
 import { errorHandlerDTO } from './errorHandlerDTO.js';
+import { getOptionalDTO } from './getOptionalDTO.js';
 
 export const roomDTO = [
   body('number')
@@ -25,9 +26,7 @@ export const createRoomDTO = [
 ];
 
 export const updateRoomDTO = [
-  ...roomDTO.map(validation => body(validation.builder.fields[0]).optional().custom((value, { req }) => {
-    return validation.run(req);
-  })),
+  ...getOptionalDTO(roomDTO),
   errorHandlerDTO,
 ];
 

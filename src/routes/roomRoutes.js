@@ -2,18 +2,19 @@ import express from 'express';
 import { validateToken } from '../middlewares/validateToken.js';
 import { createRoomDTO, updateRoomDTO } from '../middlewares/dtos/roomDTO.js';
 import { createRoom, deleteRoom, getRoomByNumber, getRooms, updateRoom } from '../controllers/roomController.js';
-import { checkRoomExists } from '../middlewares/roomById.js';
+import { checkRoomExists } from '../middlewares/checkRoomExists.js';
+import { receptionistGuard } from '../middlewares/receptionistGuard.js';
 
-const router = express.Router();
+const roomRouter = express.Router();
 
-router.get('/', getRooms);
+roomRouter.get('/', getRooms);
 
-router.get('/:number', checkRoomExists, getRoomByNumber);
+roomRouter.get('/:number', checkRoomExists, getRoomByNumber);
 
-router.post('/', validateToken, ...createRoomDTO, createRoom);
+roomRouter.post('/', validateToken, receptionistGuard,...createRoomDTO, createRoom);
 
-router.patch('/:number', validateToken, checkRoomExists,...updateRoomDTO, updateRoom);
+roomRouter.patch('/:number', validateToken, receptionistGuard, checkRoomExists,...updateRoomDTO, updateRoom);
 
-router.delete('/:number', validateToken, checkRoomExists, deleteRoom);
+roomRouter.delete('/:number', validateToken, receptionistGuard, checkRoomExists, deleteRoom);
 
-export default router;
+export default roomRouter;
