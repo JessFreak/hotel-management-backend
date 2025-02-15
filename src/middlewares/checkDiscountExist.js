@@ -6,7 +6,7 @@ export const checkDiscountExist = async (req, res, next) => {
 
   const discount = await Discount.findById(id);
   if (!discount) {
-    return next(createError(404, 'Discount with such number not found'));
+    return next(createError(404, 'Discount with such id not found'));
   }
 
   next();

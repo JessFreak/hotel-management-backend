@@ -15,14 +15,20 @@ export const getUserById = async (req, res) => {
   res.status(200).json(user);
 }
 
+export const getDiscountsByClientId = async (clientId) => {
+  const discounts = await ClientDiscount.find({ clientId })
+    .populate('discountId', 'name percentage')
+    .select('discountId')
+    .lean();
+  return discounts.map(d => d.discountId);
+}
+
 export const getUserDiscounts = async (req, res) => {
   const { id } = req.params;
 
-  const discounts = await ClientDiscount.find({ clientId: id })
-    .populate('discountId', 'name percentage')
-    .select('discountId')
+  const discounts = await getDiscountsByClientId(id);
 
-  res.status(200).json(discounts.map(d => d.discountId));
+  res.status(200).json(discounts);
 };
 
 

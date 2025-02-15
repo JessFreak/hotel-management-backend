@@ -16,7 +16,7 @@ const reservationSchema = new mongoose.Schema({
         const room = await mongoose.model('rooms').findOne({ number: value });
         return room !== null;
       },
-      message: 'Room number does not exist'
+      message: 'Room number with such number does not exist'
     }
   },
   checkIn: {
@@ -28,7 +28,11 @@ const reservationSchema = new mongoose.Schema({
   },
   note: {
     type: String,
-    trim: true
+  },
+  status: {
+    type: String,
+    enum: ['reserved', 'checked-in', 'checked-out', 'cancelled'],
+    default: 'reserved'
   }
 });
 
