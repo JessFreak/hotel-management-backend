@@ -40,8 +40,28 @@ export const getReservationById = async (req, res, next) => {
   res.status(200).json({ reservation, totalPrice });
 }
 
-export const createReservation = async (req, res) => {
+export const createReservation = async (req, res, next) => {
   const { roomNumber, checkIn, note } = req.body;
+
+  const existingReservation = await Reservation.findOne({
+    clientId: req.user.id,
+    roomNumber,
+    status: { $in: ['reserved', 'checked-in'] },
+  });
+
+  if (existingReservation) {
+    return next(createError(400, 'You already have a reservation in this room'));
+  }
+
+  const room = await Room.findOne({ number: roomNumber });
+  const reservationsInRoom = await Reservation.countDocuments({
+    roomNumber,
+    status: { $in: ['reserved', 'checked-in'] },
+  });
+
+  if (reservationsInRoom >= room.capacity) {
+    return next(createError(400, 'Room is full'));
+  }
 
   const newReservation = new Reservation({
     clientId: req.user.id,
