@@ -2,24 +2,13 @@ import Reservation from '../models/Reservation.js';
 import Room from '../models/Room.js';
 import createError from 'http-errors';
 import { getDiscountsByClientId } from './userController.js';
+import { getTotalPrice } from '../utils.js';
 
 export const getReservations = async (req, res) => {
   const reservations = await Reservation.find({})
     .populate('clientId');
 
   res.status(200).json(reservations);
-}
-
-const getTotalPrice = (reservation, room, discounts) => {
-  const { checkIn, checkOut } = reservation;
-  const days = Math.ceil((new Date(checkOut) - new Date(checkIn)) / (1000 * 3600 * 24));
-  let totalPrice = days * room.price;
-
-  discounts.forEach(discount => {
-    totalPrice -= totalPrice * (discount.percentage / 100);
-  });
-
-  return totalPrice;
 }
 
 export const getReservationById = async (req, res, next) => {
