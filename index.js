@@ -1,5 +1,6 @@
 import express from 'express';
 import 'dotenv/config';
+import cookieParser from 'cookie-parser';
 import { connectDB } from './src/configs/db.js';
 import authRoutes from './src/routes/authRoutes.js';
 import userRoutes from './src/routes/userRoutes.js';
@@ -12,6 +13,7 @@ await connectDB();
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);

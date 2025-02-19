@@ -43,7 +43,10 @@ export const loginUser = async (req, res, next) => {
     { expiresIn: '3d' }
   );
 
-  res.status(200).json({ accessToken });
+  res
+    .cookie('accessToken', accessToken, { httpOnly: true })
+    .status(200)
+    .json({});
   next();
 };
 

@@ -3,20 +3,15 @@ import createError from 'http-errors';
 import User from '../models/User.js';
 
 export const validateToken = async (req, res, next) => {
-  const authHeader = req.headers.Authorization || req.headers.authorization;
-
-  if (!authHeader || !authHeader.startsWith('Bearer')) {
+  const accessToken = req.cookies.accessToken;
+  if (!accessToken) {
     return next(createError(401, 'User is not authorized'));
   }
 
-  const token = authHeader.split(' ')[1];
-
-  jwt.verify(token, process.env.JWT_SECERT, async (err, { user: { id }}) => {
+  jwt.verify(accessToken, process.env.JWT_SECERT, async (err, { user: { id }}) => {
     if (err) next(createError(401, 'User is not authorized'));
 
-    const user = await User
-      .findById(id)
-      .select('-password')
+    const user = await User.findById(id);
     if (!user) next(createError(404, 'User not found'));
 
     req.user = user;
