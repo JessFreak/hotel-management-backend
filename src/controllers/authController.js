@@ -53,3 +53,10 @@ export const loginUser = async (req, res, next) => {
 export const getCurrentUser = (req, res) => {
   res.json(req.user);
 };
+
+export const logout = (req, res) => {
+  res
+    .clearCookie('accessToken')
+    .status(200)
+    .json({});
+}

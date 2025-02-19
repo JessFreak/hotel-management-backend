@@ -1,5 +1,5 @@
 import express from 'express';
-import { getCurrentUser, loginUser, registerUser } from '../controllers/authController.js';
+import { getCurrentUser, loginUser, logout, registerUser } from '../controllers/authController.js';
 import { registerDTO } from '../middlewares/dtos/registerDTO.js';
 import { loginDTO } from '../middlewares/dtos/loginDTO.js';
 import { validateUniqueUser } from '../middlewares/validateUniqueUser.js';
@@ -12,5 +12,7 @@ authRouter.post('/register', ...registerDTO, validateUniqueUser, registerUser);
 authRouter.post('/login', ...loginDTO, loginUser);
 
 authRouter.get('/me', validateToken, getCurrentUser);
+
+authRouter.post('/logout', validateToken, logout);
 
 export default authRouter;
