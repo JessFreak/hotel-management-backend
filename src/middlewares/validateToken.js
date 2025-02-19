@@ -9,7 +9,7 @@ export const validateToken = async (req, res, next) => {
   }
 
   jwt.verify(accessToken, process.env.JWT_SECERT, async (err, { user: { id }}) => {
-    if (err) next(createError(401, 'User is not authorized'));
+    if (err) next(createError(401, 'Access token is not valid'));
 
     const user = await User.findById(id);
     if (!user) next(createError(404, 'User not found'));
