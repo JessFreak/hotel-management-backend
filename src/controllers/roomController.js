@@ -1,5 +1,7 @@
 import Room from '../models/Room.js';
 import createError from 'http-errors';
+import { getCleanObject } from '../utils.js';
+import Reservation from '../models/Reservation.js';
 
 export const createRoom = async (req, res, next) => {
   const { number, capacity, comfortLevel, price } = req.body;
@@ -22,7 +24,26 @@ export const createRoom = async (req, res, next) => {
 };
 
 export const getRooms = async (req, res) => {
-  const rooms = await Room.find();
+  const { capacity, comfortLevel, minPrice, maxPrice, isAvailable } = req.query;
+  const filter = {
+    capacity,
+    comfortLevel,
+    price: { $gte: minPrice || 0, $lte: maxPrice },
+  };
+
+  let rooms = await Room.find(getCleanObject(filter));
+
+  if (isAvailable) {
+    const availableRooms = [];
+    for (const room of rooms) {
+      const isAvailable = await isRoomAvailable(room.number);
+      if (isAvailable) {
+        availableRooms.push(room);
+      }
+    }
+
+    rooms = availableRooms;
+  }
 
   res.status(200).json(rooms);
 };
@@ -54,3 +75,13 @@ export const deleteRoom = async (req, res) => {
 
   res.status(200).json({});
 };
+
+export const isRoomAvailable = async (roomNumber) => {
+  const room = await Room.findOne({ number: roomNumber });
+  const reservationsInRoom = await Reservation.countDocuments({
+    roomNumber,
+    status: { $in: ['reserved', 'checked-in'] },
+  });
+
+  return reservationsInRoom < room.capacity;
+}

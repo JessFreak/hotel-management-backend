@@ -24,3 +24,26 @@ export const getTotalPrice = (reservation, room, discounts) => {
 
   return totalPrice;
 }
+
+export const getCleanObject = (obj) => {
+  if (typeof obj !== 'object' || obj === null) {
+    return obj;
+  }
+
+  const newObj = Array.isArray(obj) ? [] : {};
+
+  for (const key in obj) {
+    const value = obj[key];
+    const cleanedValue = getCleanObject(value);
+
+    if (cleanedValue !== undefined) {
+      if (Array.isArray(newObj)) {
+        newObj.push(cleanedValue);
+      } else {
+        newObj[key] = cleanedValue;
+      }
+    }
+  }
+
+  return newObj;
+}

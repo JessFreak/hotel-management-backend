@@ -3,6 +3,7 @@ import Room from '../models/Room.js';
 import createError from 'http-errors';
 import { getDiscountsByClientId } from './userController.js';
 import { getTotalPrice } from '../utils.js';
+import { isRoomAvailable } from './roomController.js';
 
 export const getReservations = async (req, res) => {
   const reservations = await Reservation.find({})
@@ -42,13 +43,9 @@ export const createReservation = async (req, res, next) => {
     return next(createError(400, 'You already have a reservation in this room'));
   }
 
-  const room = await Room.findOne({ number: roomNumber });
-  const reservationsInRoom = await Reservation.countDocuments({
-    roomNumber,
-    status: { $in: ['reserved', 'checked-in'] },
-  });
+  const isAvailable = await isRoomAvailable(roomNumber);
 
-  if (reservationsInRoom >= room.capacity) {
+  if (!isAvailable) {
     return next(createError(400, 'Room is full'));
   }
 
