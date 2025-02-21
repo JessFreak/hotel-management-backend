@@ -4,7 +4,8 @@ import { errorHandlerDTO } from './errorHandlerDTO.js';
 export const filterRoomsDTO = [
   query('capacity')
     .optional()
-    .isInt({ gt: 0 }).withMessage('Capacity must be a positive integer'),
+    .isInt({ gt: 0 }).withMessage('Capacity must be a positive integer')
+    .toInt(),
 
   query('comfortLevel')
     .optional()
@@ -12,11 +13,13 @@ export const filterRoomsDTO = [
 
   query('minPrice')
     .optional()
-    .isFloat({ gt: 0 }).withMessage('PriceMin must be a positive number'),
+    .isFloat({ gt: 0 }).withMessage('PriceMin must be a positive number')
+    .toFloat(),
 
   query('maxPrice')
     .optional()
-    .isFloat({ gt: 0 }).withMessage('PriceMax must be a positive number'),
+    .isFloat({ gt: 0 }).withMessage('PriceMax must be a positive number')
+    .toFloat(),
 
   query('isAvailable')
     .optional()

@@ -75,20 +75,21 @@ export const isRoomAvailable = async (roomNumber) => {
   });
 
   return reservationsInRoom < room.capacity;
-}
+};
 
 const roomsByIsAvailable = async (isAvailable, filter) => {
-  return Room.aggregate([
-    { $match: filter },
-    {
+  return Room.aggregate([{
+    $match: {
+      ...filter,
+    },
+  }, {
       $lookup: {
         from: 'reservations',
         localField: 'number',
         foreignField: 'roomNumber',
         as: 'reservations',
       },
-    },
-    {
+    }, {
       $addFields: {
         activeReservations: {
           $size: {
@@ -100,14 +101,12 @@ const roomsByIsAvailable = async (isAvailable, filter) => {
           },
         },
       },
-    },
-    {
+    }, {
       $match: {
         $expr: isAvailable === 'true'
           ? { $lt: ['$activeReservations', '$capacity'] }
           : { $gte: ['$activeReservations', '$capacity'] },
       },
-    },
-    { $project: { reservations: 0, activeReservations: 0 } },
+    }, { $project: { reservations: 0, activeReservations: 0 } },
   ]);
-}
+};
