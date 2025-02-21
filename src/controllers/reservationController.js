@@ -6,15 +6,15 @@ import { getCleanObject, getTotalPrice } from '../utils.js';
 import { isRoomAvailable } from './roomController.js';
 
 export const getReservations = async (req, res, next) => {
-  const { clientId, status, checkIn, checkOut, my, roomNumber } = req.query;
+  const { clientId, status, checkIn, checkOut, roomNumber } = req.query;
   const user = req.user;
 
-  if (user.role !== 'receptionist' && !my) {
+  if (user.role !== 'receptionist' && clientId !== user.id) {
     return next(createError(403, 'Access forbidden: Receptionist only'));
   }
 
   const filter = getCleanObject({
-    clientId: my ? user.id : clientId,
+    clientId,
     status,
     checkIn,
     checkOut,

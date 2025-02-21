@@ -23,9 +23,5 @@ export const filterReservationsDTO = [
     .optional()
     .isISO8601().withMessage('checkOut must be a valid date in ISO format'),
 
-  query('my')
-    .optional()
-    .isBoolean().withMessage('my must be a boolean'),
-
   errorHandlerDTO,
 ];
