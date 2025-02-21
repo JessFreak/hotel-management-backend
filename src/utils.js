@@ -15,7 +15,7 @@ const DAY = 1000 * 3600 * 24;
 
 export const getTotalPrice = (reservation, room, discounts) => {
   const { checkIn, checkOut } = reservation;
-  const days = Math.ceil((new Date(checkOut) - new Date(checkIn)) / DAY);
+  const days = Math.ceil((new Date(checkOut) - new Date(checkIn)) / DAY) | 0;
   let totalPrice = days * room.price;
 
   discounts.forEach(discount => {

@@ -42,7 +42,7 @@ export const getReservationById = async (req, res, next) => {
   const discounts = await getDiscountsByClientId(user.id);
   const totalPrice = getTotalPrice(reservation, room, discounts);
 
-  res.status(200).json({ reservation, totalPrice });
+  res.status(200).json({ reservation, room, totalPrice });
 }
 
 export const createReservation = async (req, res, next) => {
@@ -79,10 +79,11 @@ export const createReservation = async (req, res, next) => {
 export const changeStatus = async (req, res) => {
   const { id, status } = req.params;
 
+  const currentReservation = await Reservation.findById(id);
   const reservation = await Reservation.findByIdAndUpdate(
     id, {
       status,
-      checkOut: status === 'checked-out' ? new Date() : undefined,
+      checkOut: status === 'checked-out' ? new Date() : currentReservation.checkOut,
     }, {
       new: true,
     },
