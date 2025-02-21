@@ -16,7 +16,7 @@ const reservationRouter = express.Router();
 
 reservationRouter.get('/', validateToken, ...filterReservationsDTO, getReservations);
 
-reservationRouter.get('/:id', validateToken, getReservationById);
+reservationRouter.get('/:id', validateToken, checkReservationExist, getReservationById);
 
 reservationRouter.post('/', validateToken, ...createReservationDTO, createReservation);
 
