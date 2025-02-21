@@ -31,7 +31,7 @@ export const getReservationById = async (req, res, next) => {
 }
 
 export const createReservation = async (req, res, next) => {
-  const { roomNumber, checkIn, note } = req.body;
+  const { roomNumber, checkIn, checkOut, note } = req.body;
 
   const existingReservation = await Reservation.findOne({
     clientId: req.user.id,
@@ -52,6 +52,7 @@ export const createReservation = async (req, res, next) => {
   const newReservation = new Reservation({
     clientId: req.user.id,
     checkIn,
+    checkOut,
     note,
     roomNumber,
   });

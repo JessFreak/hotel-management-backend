@@ -17,6 +17,10 @@ export const createReservationDTO = [
     .notEmpty().withMessage('Check-in date is required')
     .isISO8601().withMessage('Check-in date must be a valid date'),
 
+  body('checkOut')
+    .optional()
+    .isISO8601().withMessage('Check-out date must be a valid date'),
+
   body('note')
     .optional()
     .isString().withMessage('Note must be a string')
