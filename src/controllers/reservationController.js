@@ -2,11 +2,26 @@ import Reservation from '../models/Reservation.js';
 import Room from '../models/Room.js';
 import createError from 'http-errors';
 import { getDiscountsByClientId } from './userController.js';
-import { getTotalPrice } from '../utils.js';
+import { getCleanObject, getTotalPrice } from '../utils.js';
 import { isRoomAvailable } from './roomController.js';
 
-export const getReservations = async (req, res) => {
-  const reservations = await Reservation.find({})
+export const getReservations = async (req, res, next) => {
+  const { clientId, status, checkIn, checkOut, my, roomNumber } = req.query;
+  const user = req.user;
+
+  if (user.role !== 'receptionist' && !my) {
+    return next(createError(403, 'Access forbidden: Receptionist only'));
+  }
+
+  const filter = getCleanObject({
+    clientId: my ? user.id : clientId,
+    status,
+    checkIn,
+    checkOut,
+    roomNumber,
+  });
+
+  const reservations = await Reservation.find(filter)
     .populate('clientId');
 
   res.status(200).json(reservations);

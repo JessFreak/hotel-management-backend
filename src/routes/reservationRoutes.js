@@ -10,10 +10,11 @@ import {
 } from '../controllers/reservationController.js';
 import { checkReservationExist } from '../middlewares/checkReservationExist.js';
 import { changeStatusDTO } from '../middlewares/dtos/changeStatusDTO.js';
+import { filterReservationsDTO } from '../middlewares/dtos/filterReservationsDTO.js';
 
 const reservationRouter = express.Router();
 
-reservationRouter.get('/', validateToken, receptionistGuard, getReservations);
+reservationRouter.get('/', validateToken, ...filterReservationsDTO, getReservations);
 
 reservationRouter.get('/:id', validateToken, getReservationById);
 
