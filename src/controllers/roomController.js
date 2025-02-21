@@ -25,25 +25,16 @@ export const createRoom = async (req, res, next) => {
 
 export const getRooms = async (req, res) => {
   const { capacity, comfortLevel, minPrice, maxPrice, isAvailable } = req.query;
-  const filter = {
+
+  const filter = getCleanObject({
     capacity,
     comfortLevel,
     price: { $gte: minPrice || 0, $lte: maxPrice },
-  };
+  });
 
-  let rooms = await Room.find(getCleanObject(filter));
-
-  if (isAvailable) {
-    const availableRooms = [];
-    for (const room of rooms) {
-      const isAvailable = await isRoomAvailable(room.number);
-      if (isAvailable) {
-        availableRooms.push(room);
-      }
-    }
-
-    rooms = availableRooms;
-  }
+  const rooms = isAvailable
+    ? await roomsByIsAvailable(isAvailable, filter)
+    : await Room.find(filter);
 
   res.status(200).json(rooms);
 };
@@ -84,4 +75,39 @@ export const isRoomAvailable = async (roomNumber) => {
   });
 
   return reservationsInRoom < room.capacity;
+}
+
+const roomsByIsAvailable = async (isAvailable, filter) => {
+  return Room.aggregate([
+    { $match: filter },
+    {
+      $lookup: {
+        from: 'reservations',
+        localField: 'number',
+        foreignField: 'roomNumber',
+        as: 'reservations',
+      },
+    },
+    {
+      $addFields: {
+        activeReservations: {
+          $size: {
+            $filter: {
+              input: '$reservations',
+              as: 'reservation',
+              cond: { $in: ['$$reservation.status', ['reserved', 'checked-in']] },
+            },
+          },
+        },
+      },
+    },
+    {
+      $match: {
+        $expr: isAvailable === 'true'
+          ? { $lt: ['$activeReservations', '$capacity'] }
+          : { $gte: ['$activeReservations', '$capacity'] },
+      },
+    },
+    { $project: { reservations: 0, activeReservations: 0 } },
+  ]);
 }
