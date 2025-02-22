@@ -3,7 +3,8 @@ import { validateToken } from '../middlewares/validateToken.js';
 import { receptionistGuard } from '../middlewares/receptionistGuard.js';
 import { createReservationDTO } from '../middlewares/dtos/reservationDTO.js';
 import {
-  changeStatus,
+  cancelReservation,
+  changeReservationStatus,
   createReservation,
   getReservationById,
   getReservations
@@ -20,6 +21,8 @@ reservationRouter.get('/:id', validateToken, checkReservationExist, getReservati
 
 reservationRouter.post('/', validateToken, ...createReservationDTO, createReservation);
 
-reservationRouter.patch('/:id/:status', validateToken, receptionistGuard, checkReservationExist, ...changeStatusDTO, changeStatus);
+reservationRouter.patch('/:id/cancel', validateToken, checkReservationExist, cancelReservation);
+
+reservationRouter.patch('/:id/:status', validateToken, receptionistGuard, checkReservationExist, ...changeStatusDTO, changeReservationStatus);
 
 export default reservationRouter;

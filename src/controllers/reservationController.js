@@ -76,7 +76,23 @@ export const createReservation = async (req, res, next) => {
   res.status(201).json({});
 }
 
-export const changeStatus = async (req, res) => {
+export const cancelReservation = async (req, res, next) => {
+  const { id } = req.params;
+  const user = req.user;
+
+  const reservation = await Reservation.findById(id);
+
+  if (reservation.clientId._id.toString() !== user.id) {
+    return next(createError(403, 'You do not have permission to cancel this reservation'));
+  }
+
+  reservation.status = 'cancelled';
+  await reservation.save();
+
+  res.status(200).json({});
+}
+
+export const changeReservationStatus = async (req, res) => {
   const { id, status } = req.params;
 
   const currentReservation = await Reservation.findById(id);
