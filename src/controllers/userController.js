@@ -1,9 +1,22 @@
 import User from '../models/User.js';
 import ClientDiscount from '../models/ClientDiscount.js';
 import createError from 'http-errors';
+import { getCleanObject } from '../utils.js';
 
 export const getUsers = async (req, res) => {
-  const users = await User.find({});
+  const { role, email, name, passportNumber } = req.query;
+
+  let filter = getCleanObject({ role, email, passportNumber });
+
+  if (name) {
+    filter.$or = [
+      { firstName: { $regex: name, $options: 'i' } },
+      { lastName: { $regex: name, $options: 'i' } },
+      { middleName: { $regex: name, $options: 'i' } },
+    ];
+  }
+
+  const users = await User.find(filter);
 
   res.status(200).json(users);
 }

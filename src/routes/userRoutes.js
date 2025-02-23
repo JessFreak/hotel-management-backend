@@ -4,10 +4,11 @@ import { checkUserExist } from '../middlewares/checkUserExist.js';
 import { addUserDiscount, getUserById, getUserDiscounts, getUsers } from '../controllers/userController.js';
 import { receptionistGuard } from '../middlewares/receptionistGuard.js';
 import { validateToken } from '../middlewares/validateToken.js';
+import { filterUsersDTO } from '../middlewares/dtos/filterUsersDTO.js';
 
 const userRouter = Router();
 
-userRouter.get('/', validateToken, receptionistGuard, getUsers);
+userRouter.get('/', validateToken, receptionistGuard, ...filterUsersDTO, getUsers);
 
 userRouter.get('/:id', validateToken, receptionistGuard, checkUserExist, getUserById);
 
