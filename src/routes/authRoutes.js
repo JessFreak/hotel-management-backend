@@ -104,14 +104,7 @@ authRouter.get('/me', validateToken, getCurrentUser);
  *     responses:
  *       200:
  *         description: Successfully logged out
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: Successfully logged out
+ *
  *       401:
  *         $ref: "#/components/responses/UnauthorizedError"
  */

@@ -18,7 +18,7 @@ export const registerUser = async (req, res) => {
   });
 
   await newUser.save();
-  res.status(201).json();
+  res.status(201).json({});
 };
 
 export const loginUser = async (req, res, next) => {
