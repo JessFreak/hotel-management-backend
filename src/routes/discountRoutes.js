@@ -54,7 +54,10 @@ discountRouter.get('/', getDiscounts);
  *           example: 60c72b2f9b1d8b8f1c8e4d0c
  *     responses:
  *       200:
- *         $ref: "#/components/responses/Discount"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/responses/Discount"
  *
  *       404:
  *         $ref: "#/components/responses/NotFoundError"
@@ -89,7 +92,10 @@ discountRouter.get('/:id', checkDiscountExist, getDiscountById);
  *               - percentage
  *     responses:
  *       201:
- *         $ref: "#/components/responses/Discount"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/responses/Discount"
  *
  *       400:
  *         description: Invalid data provided
@@ -108,18 +114,7 @@ discountRouter.get('/:id', checkDiscountExist, getDiscountById);
  *         $ref: "#/components/responses/UnauthorizedError"
  *
  *       403:
- *         description: Access forbidden Receptionist only
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: integer
- *                   example: 403
- *                 message:
- *                   type: string
- *                   example: "Access forbidden: Receptionist only"
+ *         $ref: "#/components/responses/ForbiddenError"
  */
 discountRouter.post('/', validateToken, receptionistGuard, ...createDiscountDTO, createDiscount);
 
@@ -156,7 +151,10 @@ discountRouter.post('/', validateToken, receptionistGuard, ...createDiscountDTO,
  *                 example: 15
  *     responses:
  *       200:
- *         $ref: "#/components/responses/Discount"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/responses/Discount"
  *
  *       400:
  *         description: Invalid data provided or discount not found
@@ -175,18 +173,8 @@ discountRouter.post('/', validateToken, receptionistGuard, ...createDiscountDTO,
  *         $ref: "#/components/responses/UnauthorizedError"
  *
  *       403:
- *         description: Access forbidden Receptionist only
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: integer
- *                   example: 403
- *                 message:
- *                   type: string
- *                   example: "Access forbidden: Receptionist only"
+ *         $ref: "#/components/responses/ForbiddenError"
+ *
  *       404:
  *         $ref: "#/components/responses/NotFoundError"
  */
@@ -216,18 +204,8 @@ discountRouter.patch('/:id', validateToken, receptionistGuard, checkDiscountExis
  *         $ref: "#/components/responses/UnauthorizedError"
  *
  *       403:
- *         description: Access forbidden Receptionist only
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: integer
- *                   example: 403
- *                 message:
- *                   type: string
- *                   example: "Access forbidden: Receptionist only"
+ *         $ref: "#/components/responses/ForbiddenError"
+ *
  *       404:
  *         $ref: "#/components/responses/NotFoundError"
  */

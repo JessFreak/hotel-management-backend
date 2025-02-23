@@ -87,7 +87,10 @@ userRouter.get('/', validateToken, receptionistGuard, ...filterUsersDTO, getUser
  *           example: "60c72b2f9b1d8b8f1c8e4d0c"
  *     responses:
  *       200:
- *         $ref: "#/components/responses/User"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/responses/User"
  *
  *       401:
  *         $ref: "#/components/responses/UnauthorizedError"

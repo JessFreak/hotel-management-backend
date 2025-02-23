@@ -101,7 +101,10 @@ roomRouter.get('/', ...filterRoomsDTO, getRooms);
  *           example: 101
  *     responses:
  *       200:
- *         $ref: "#/components/responses/Room"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/responses/Room"
  *
  *       404:
  *         $ref: "#/components/responses/NotFoundError"
@@ -219,7 +222,10 @@ roomRouter.post('/', validateToken, receptionistGuard, ...createRoomDTO, createR
  *               - number
  *     responses:
  *       200:
- *         $ref: "#/components/responses/Room"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/responses/Room"
  *
  *       400:
  *         description: Room with such number does not exist or invalid data provided

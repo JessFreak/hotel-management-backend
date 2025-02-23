@@ -87,7 +87,10 @@ authRouter.post('/login', ...loginDTO, loginUser);
  *       - BearerAuth: []
  *     responses:
  *       200:
- *         $ref: "#/components/responses/User"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/responses/User"
  *       401:
  *         $ref: "#/components/responses/UnauthorizedError"
  */
