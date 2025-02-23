@@ -61,11 +61,11 @@ const userRouter = Router();
  *             schema:
  *               type: array
  *               items:
- *                 $ref: "#/components/responses/User"
+ *                 $ref: "#/components/schemas/User"
  *       401:
- *         $ref: "#/components/responses/UnauthorizedError"
+ *         $ref: "#/components/schemas/UnauthorizedError"
  *       403:
- *         $ref: "#/components/responses/ForbiddenError"
+ *         $ref: "#/components/schemas/ForbiddenError"
  */
 userRouter.get('/', validateToken, receptionistGuard, ...filterUsersDTO, getUsers);
 
@@ -90,14 +90,14 @@ userRouter.get('/', validateToken, receptionistGuard, ...filterUsersDTO, getUser
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/responses/User"
+ *               $ref: "#/components/schemas/User"
  *
  *       401:
- *         $ref: "#/components/responses/UnauthorizedError"
+ *         $ref: "#/components/schemas/UnauthorizedError"
  *       403:
- *         $ref: "#/components/responses/ForbiddenError"
+ *         $ref: "#/components/schemas/ForbiddenError"
  *       404:
- *         $ref: "#/components/responses/NotFoundError"
+ *         $ref: "#/components/schemas/NotFoundError"
  */
 userRouter.get('/:id', validateToken, receptionistGuard, checkUserExist, getUserById);
 
@@ -125,13 +125,13 @@ userRouter.get('/:id', validateToken, receptionistGuard, checkUserExist, getUser
  *             schema:
  *               type: array
  *               items:
- *                 $ref: "#/components/responses/Discount"
+ *                 $ref: "#/components/schemas/Discount"
  *       401:
- *         $ref: "#/components/responses/UnauthorizedError"
+ *         $ref: "#/components/schemas/UnauthorizedError"
  *       403:
- *         $ref: "#/components/responses/ForbiddenError"
+ *         $ref: "#/components/schemas/ForbiddenError"
  *       404:
- *         $ref: "#/components/responses/NotFoundError"
+ *         $ref: "#/components/schemas/NotFoundError"
  */
 userRouter.get('/:id/discounts', validateToken, receptionistGuard, checkUserExist, getUserDiscounts);
 
@@ -175,11 +175,11 @@ userRouter.get('/:id/discounts', validateToken, receptionistGuard, checkUserExis
  *                   type: string
  *                   example: "User already has this discount"
  *       401:
- *         $ref: "#/components/responses/UnauthorizedError"
+ *         $ref: "#/components/schemas/UnauthorizedError"
  *       403:
- *         $ref: "#/components/responses/ForbiddenError"
+ *         $ref: "#/components/schemas/ForbiddenError"
  *       404:
- *         $ref: "#/components/responses/NotFoundError"
+ *         $ref: "#/components/schemas/NotFoundError"
  */
 userRouter.post('/:id/discounts', validateToken, receptionistGuard, checkUserExist, checkDiscountExist, addUserDiscount);
 

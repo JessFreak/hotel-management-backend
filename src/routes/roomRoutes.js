@@ -68,7 +68,7 @@ const roomRouter = express.Router();
  *             schema:
  *               type: array
  *               items:
- *                 $ref: "#/components/responses/Room"
+ *                 $ref: "#/components/schemas/Room"
  *       400:
  *         description: Invalid filter parameters
  *         content:
@@ -104,10 +104,10 @@ roomRouter.get('/', ...filterRoomsDTO, getRooms);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/responses/Room"
+ *               $ref: "#/components/schemas/Room"
  *
  *       404:
- *         $ref: "#/components/responses/NotFoundError"
+ *         $ref: "#/components/schemas/NotFoundError"
  */
 roomRouter.get('/:number', checkRoomExists, getRoomByNumber);
 
@@ -155,7 +155,7 @@ roomRouter.get('/:number', checkRoomExists, getRoomByNumber);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/responses/Room"
+ *               $ref: "#/components/schemas/Room"
  *       400:
  *         description: Room with such number already exists
  *         content:
@@ -170,10 +170,10 @@ roomRouter.get('/:number', checkRoomExists, getRoomByNumber);
  *                   type: string
  *                   example: "Room with such number already exists"
  *       401:
- *         $ref: "#/components/responses/UnauthorizedError"
+ *         $ref: "#/components/schemas/UnauthorizedError"
  *
  *       403:
- *         $ref: "#/components/responses/ForbiddenError"
+ *         $ref: "#/components/schemas/ForbiddenError"
  */
 roomRouter.post('/', validateToken, receptionistGuard, ...createRoomDTO, createRoom);
 
@@ -225,7 +225,7 @@ roomRouter.post('/', validateToken, receptionistGuard, ...createRoomDTO, createR
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/responses/Room"
+ *               $ref: "#/components/schemas/Room"
  *
  *       400:
  *         description: Room with such number does not exist or invalid data provided
@@ -241,13 +241,13 @@ roomRouter.post('/', validateToken, receptionistGuard, ...createRoomDTO, createR
  *                   type: string
  *                   example: "Room with such number does not exist or invalid data provided"
  *       401:
- *         $ref: "#/components/responses/UnauthorizedError"
+ *         $ref: "#/components/schemas/UnauthorizedError"
  *
  *       403:
- *         $ref: "#/components/responses/ForbiddenError"
+ *         $ref: "#/components/schemas/ForbiddenError"
  *
  *       404:
- *         $ref: "#/components/responses/NotFoundError"
+ *         $ref: "#/components/schemas/NotFoundError"
  */
 roomRouter.patch('/:number', validateToken, receptionistGuard, checkRoomExists, ...updateRoomDTO, updateRoom);
 
@@ -285,13 +285,13 @@ roomRouter.patch('/:number', validateToken, receptionistGuard, checkRoomExists, 
  *                   type: string
  *                   example: "Room with such number does not exist"
  *       401:
- *         $ref: "#/components/responses/UnauthorizedError"
+ *         $ref: "#/components/schemas/UnauthorizedError"
  *
  *       403:
- *         $ref: "#/components/responses/ForbiddenError"
+ *         $ref: "#/components/schemas/ForbiddenError"
  *
  *       404:
- *         $ref: "#/components/responses/NotFoundError"
+ *         $ref: "#/components/schemas/NotFoundError"
  */
 roomRouter.delete('/:number', validateToken, receptionistGuard, checkRoomExists, deleteRoom);
 

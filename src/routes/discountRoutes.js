@@ -34,7 +34,7 @@ const discountRouter = express.Router();
  *             schema:
  *               type: array
  *               items:
- *                 $ref: "#/components/responses/Discount"
+ *                 $ref: "#/components/schemas/Discount"
  */
 discountRouter.get('/', getDiscounts);
 
@@ -57,10 +57,10 @@ discountRouter.get('/', getDiscounts);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/responses/Discount"
+ *               $ref: "#/components/schemas/Discount"
  *
  *       404:
- *         $ref: "#/components/responses/NotFoundError"
+ *         $ref: "#/components/schemas/NotFoundError"
  */
 discountRouter.get('/:id', checkDiscountExist, getDiscountById);
 
@@ -95,7 +95,7 @@ discountRouter.get('/:id', checkDiscountExist, getDiscountById);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/responses/Discount"
+ *               $ref: "#/components/schemas/Discount"
  *
  *       400:
  *         description: Invalid data provided
@@ -111,10 +111,10 @@ discountRouter.get('/:id', checkDiscountExist, getDiscountById);
  *                   type: string
  *                   example: "Discount name and percentage are required, and percentage must be a number between 0 and 100"
  *       401:
- *         $ref: "#/components/responses/UnauthorizedError"
+ *         $ref: "#/components/schemas/UnauthorizedError"
  *
  *       403:
- *         $ref: "#/components/responses/ForbiddenError"
+ *         $ref: "#/components/schemas/ForbiddenError"
  */
 discountRouter.post('/', validateToken, receptionistGuard, ...createDiscountDTO, createDiscount);
 
@@ -154,7 +154,7 @@ discountRouter.post('/', validateToken, receptionistGuard, ...createDiscountDTO,
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/responses/Discount"
+ *               $ref: "#/components/schemas/Discount"
  *
  *       400:
  *         description: Invalid data provided or discount not found
@@ -170,13 +170,13 @@ discountRouter.post('/', validateToken, receptionistGuard, ...createDiscountDTO,
  *                   type: string
  *                   example: "Discount with such id not found or invalid data provided"
  *       401:
- *         $ref: "#/components/responses/UnauthorizedError"
+ *         $ref: "#/components/schemas/UnauthorizedError"
  *
  *       403:
- *         $ref: "#/components/responses/ForbiddenError"
+ *         $ref: "#/components/schemas/ForbiddenError"
  *
  *       404:
- *         $ref: "#/components/responses/NotFoundError"
+ *         $ref: "#/components/schemas/NotFoundError"
  */
 discountRouter.patch('/:id', validateToken, receptionistGuard, checkDiscountExist, ...updateDiscountDTO, updateDiscount);
 
@@ -201,13 +201,13 @@ discountRouter.patch('/:id', validateToken, receptionistGuard, checkDiscountExis
  *         description: Discount deleted successfully
  *
  *       401:
- *         $ref: "#/components/responses/UnauthorizedError"
+ *         $ref: "#/components/schemas/UnauthorizedError"
  *
  *       403:
- *         $ref: "#/components/responses/ForbiddenError"
+ *         $ref: "#/components/schemas/ForbiddenError"
  *
  *       404:
- *         $ref: "#/components/responses/NotFoundError"
+ *         $ref: "#/components/schemas/NotFoundError"
  */
 discountRouter.delete('/:id', validateToken, receptionistGuard, checkDiscountExist, deleteDiscount);
 

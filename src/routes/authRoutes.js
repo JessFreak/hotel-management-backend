@@ -90,9 +90,9 @@ authRouter.post('/login', ...loginDTO, loginUser);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/responses/User"
+ *               $ref: "#/components/schemas/User"
  *       401:
- *         $ref: "#/components/responses/UnauthorizedError"
+ *         $ref: "#/components/schemas/UnauthorizedError"
  */
 authRouter.get('/me', validateToken, getCurrentUser);
 
@@ -109,7 +109,7 @@ authRouter.get('/me', validateToken, getCurrentUser);
  *         description: Successfully logged out
  *
  *       401:
- *         $ref: "#/components/responses/UnauthorizedError"
+ *         $ref: "#/components/schemas/UnauthorizedError"
  */
 authRouter.post('/logout', validateToken, logout);
 

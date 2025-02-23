@@ -11,7 +11,7 @@ import reservationRoutes from './src/routes/reservationRoutes.js';
 import { errorHandler } from './src/middlewares/errorHandler.js';
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import { swaggerOptions } from './src/configs/swager.js';
+import { swaggerOptions } from './src/configs/swagger.js';
 
 await connectDB();
 

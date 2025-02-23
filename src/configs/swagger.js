@@ -26,7 +26,7 @@ export const swaggerOptions = {
           bearerFormat: 'JWT',
         },
       },
-      responses: {
+      schemas: {
         UnauthorizedError: unauthorizedError,
         ForbiddenError: forbiddenError,
         NotFoundError: notFoundError,
