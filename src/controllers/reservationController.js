@@ -103,7 +103,7 @@ export const changeReservationStatus = async (req, res) => {
     }, {
       new: true,
     },
-  );
+  ).populate('clientId');
 
   res.status(200).json(reservation);
 }

@@ -4,6 +4,7 @@ import { roomResponse } from './responses/roomResponse.js';
 import { discountResponse } from './responses/discountResponse.js';
 import { forbiddenError } from './responses/errors/forbiddenError.js';
 import { notFoundError } from './responses/errors/notFoundError.js';
+import { reservationResponse } from './responses/reservationResponse.js';
 
 export const swaggerOptions = {
   swaggerDefinition: {
@@ -33,6 +34,7 @@ export const swaggerOptions = {
         User: userResponse,
         Room: roomResponse,
         Discount: discountResponse,
+        Reservation: reservationResponse,
       },
     },
   },
