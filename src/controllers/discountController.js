@@ -26,7 +26,7 @@ export const updateDiscount = async (req, res) => {
   const { id } = req.params;
   const { name, percentage } = req.body;
 
-  const discount = await Discount.findByIdAndUpdate({ id }, {  name, percentage }, { new: true });
+  const discount = await Discount.findByIdAndUpdate(id, { name, percentage }, { new: true });
 
   res.status(200).json(discount);
 }

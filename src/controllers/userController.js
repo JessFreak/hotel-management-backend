@@ -57,5 +57,5 @@ export const addUserDiscount = async (req, res, next) => {
   const newUserDiscount = new ClientDiscount({ clientId: id, discountId });
   await newUserDiscount.save();
 
-  res.status(201).json();
+  res.status(201).json({});
 }
