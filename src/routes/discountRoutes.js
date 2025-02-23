@@ -57,18 +57,7 @@ discountRouter.get('/', getDiscounts);
  *         $ref: "#/components/responses/Discount"
  *
  *       404:
- *         description: Discount not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: integer
- *                   example: 404
- *                 message:
- *                   type: string
- *                   example: "Discount with such id not found"
+ *         $ref: "#/components/responses/NotFoundError"
  */
 discountRouter.get('/:id', checkDiscountExist, getDiscountById);
 
@@ -199,18 +188,7 @@ discountRouter.post('/', validateToken, receptionistGuard, ...createDiscountDTO,
  *                   type: string
  *                   example: "Access forbidden: Receptionist only"
  *       404:
- *         description: Discount not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: integer
- *                   example: 404
- *                 message:
- *                   type: string
- *                   example: "Discount not found"
+ *         $ref: "#/components/responses/NotFoundError"
  */
 discountRouter.patch('/:id', validateToken, receptionistGuard, checkDiscountExist, ...updateDiscountDTO, updateDiscount);
 
@@ -251,18 +229,7 @@ discountRouter.patch('/:id', validateToken, receptionistGuard, checkDiscountExis
  *                   type: string
  *                   example: "Access forbidden: Receptionist only"
  *       404:
- *         description: Discount not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: integer
- *                   example: 404
- *                 message:
- *                   type: string
- *                   example: "Discount not found"
+ *         $ref: "#/components/responses/NotFoundError"
  */
 discountRouter.delete('/:id', validateToken, receptionistGuard, checkDiscountExist, deleteDiscount);
 

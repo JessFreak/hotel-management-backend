@@ -1,7 +1,9 @@
-import { unauthorizedResponse } from './responses/unauthorizedResponse.js';
+import { unauthorizedError } from './responses/errors/unauthorizedError.js';
 import { userResponse } from './responses/userResponse.js';
 import { roomResponse } from './responses/roomResponse.js';
 import { discountResponse } from './responses/discountResponse.js';
+import { forbiddenError } from './responses/errors/forbiddenError.js';
+import { notFoundError } from './responses/errors/notFoundError.js';
 
 export const swaggerOptions = {
   swaggerDefinition: {
@@ -25,7 +27,9 @@ export const swaggerOptions = {
         },
       },
       responses: {
-        UnauthorizedError: unauthorizedResponse,
+        UnauthorizedError: unauthorizedError,
+        ForbiddenError: forbiddenError,
+        NotFoundError: notFoundError,
         User: userResponse,
         Room: roomResponse,
         Discount: discountResponse,

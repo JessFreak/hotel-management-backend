@@ -102,19 +102,9 @@ roomRouter.get('/', ...filterRoomsDTO, getRooms);
  *     responses:
  *       200:
  *         $ref: "#/components/responses/Room"
+ *
  *       404:
- *         description: Room not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: integer
- *                   example: 404
- *                 message:
- *                   type: string
- *                   example: "Room with such number not found"
+ *         $ref: "#/components/responses/NotFoundError"
  */
 roomRouter.get('/:number', checkRoomExists, getRoomByNumber);
 
@@ -180,18 +170,7 @@ roomRouter.get('/:number', checkRoomExists, getRoomByNumber);
  *         $ref: "#/components/responses/UnauthorizedError"
  *
  *       403:
- *         description: Access forbidden Receptionist only
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: integer
- *                   example: 403
- *                 message:
- *                   type: string
- *                   example: "Access forbidden: Receptionist only"
+ *         $ref: "#/components/responses/ForbiddenError"
  */
 roomRouter.post('/', validateToken, receptionistGuard, ...createRoomDTO, createRoom);
 
@@ -259,31 +238,10 @@ roomRouter.post('/', validateToken, receptionistGuard, ...createRoomDTO, createR
  *         $ref: "#/components/responses/UnauthorizedError"
  *
  *       403:
- *         description: Access forbidden Receptionist only
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: integer
- *                   example: 403
- *                 message:
- *                   type: string
- *                   example: "Access forbidden: Receptionist only"
+ *         $ref: "#/components/responses/ForbiddenError"
+ *
  *       404:
- *         description: Room not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: integer
- *                   example: 404
- *                 message:
- *                   type: string
- *                   example: "Room not found"
+ *         $ref: "#/components/responses/NotFoundError"
  */
 roomRouter.patch('/:number', validateToken, receptionistGuard, checkRoomExists, ...updateRoomDTO, updateRoom);
 
@@ -324,31 +282,10 @@ roomRouter.patch('/:number', validateToken, receptionistGuard, checkRoomExists, 
  *         $ref: "#/components/responses/UnauthorizedError"
  *
  *       403:
- *         description: Access forbidden Receptionist only
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: integer
- *                   example: 403
- *                 message:
- *                   type: string
- *                   example: "Access forbidden: Receptionist only"
+ *         $ref: "#/components/responses/ForbiddenError"
+ *
  *       404:
- *         description: Room not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: integer
- *                   example: 404
- *                 message:
- *                   type: string
- *                   example: "Room not found"
+ *         $ref: "#/components/responses/NotFoundError"
  */
 roomRouter.delete('/:number', validateToken, receptionistGuard, checkRoomExists, deleteRoom);
 

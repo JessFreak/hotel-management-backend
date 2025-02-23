@@ -1,5 +1,5 @@
-export const unauthorizedResponse = {
-  description: 'Unauthorized, missing or invalid token',
+export const forbiddenError = {
+  description: 'Access forbidden: Receptionist only',
   content: {
     'application/json': {
       schema: {
@@ -7,19 +7,20 @@ export const unauthorizedResponse = {
         properties: {
           title: {
             type: 'string',
-            example: 'Unauthorized'
+            example: 'Forbidden'
           },
           status: {
             type: 'integer',
-            example: 401
+            example: 403
           },
           message: {
             type: 'string',
-            example: 'User is not authorized'
+            example: 'Access forbidden: Receptionist only'
           },
           path: {
             type: 'string',
-            example: '/auth/me'
+            example: '/rooms',
+            method: 'post'
           },
           timestamp: {
             type: 'string',
@@ -28,5 +29,5 @@ export const unauthorizedResponse = {
         }
       }
     }
-  }
-}
+  },
+};
