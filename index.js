@@ -9,6 +9,9 @@ import roomRoutes from './src/routes/roomRoutes.js';
 import discountRoutes from './src/routes/discountRoutes.js';
 import reservationRoutes from './src/routes/reservationRoutes.js';
 import { errorHandler } from './src/middlewares/errorHandler.js';
+import swaggerJsDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerOptions } from './src/configs/swager.js';
 
 await connectDB();
 
@@ -27,6 +30,9 @@ app.use('/discounts', discountRoutes);
 app.use('/reservations', reservationRoutes);
 
 app.use(errorHandler);
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 const port = process.env.PORT;
 app.listen(port, () => {
