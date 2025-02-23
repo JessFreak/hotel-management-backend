@@ -12,7 +12,7 @@ const roomRouter = express.Router();
  * @swagger
  * tags:
  *   name: Rooms
- *   description: Room management routes
+ *   description: Rooms management routes
  */
 
 /**
