@@ -44,3 +44,17 @@ $ npm install
 ```bash
 $ npm start
 ```
+
+## API Documentation (Swagger)
+
+To view the API documentation for this project, you can use Swagger. 
+It provides an interactive interface to explore the available endpoints and their usage.
+
+### Accessing the documentation
+Once the project is running, open your browser and go to the following URL to access the documentation:
+
+```bash
+$ http://localhost:PORT/api-docs
+```
+
+This will display the API documentation, including information about the available routes, request/response formats, and more.
