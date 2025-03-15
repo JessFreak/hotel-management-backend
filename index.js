@@ -13,6 +13,10 @@ import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerOptions } from './src/configs/swagger.js';
 
+import { ApolloServer } from 'apollo-server-express';
+import typeDefs from './src/graphql/schema.js';
+import resolvers from './src/graphql/resolvers.js';
+
 await connectDB();
 
 const app = express();
@@ -29,12 +33,20 @@ app.use('/rooms', roomRoutes);
 app.use('/discounts', discountRoutes);
 app.use('/reservations', reservationRoutes);
 
-app.use(errorHandler);
-
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
+
+await server.start();
+server.applyMiddleware({ app });
+
+app.use(errorHandler);
+
 const port = process.env.PORT;
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on http://localhost:${port}${server.graphqlPath}`);
 });
