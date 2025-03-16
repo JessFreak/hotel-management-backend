@@ -58,3 +58,13 @@ $ http://localhost:PORT/api-docs
 ```
 
 This will display the API documentation, including information about the available routes, request/response formats, and more.
+
+## GraphQL
+This project includes a GraphQL API powered by Apollo Server. It allows querying and mutating User, Room, and Reservation data efficiently. 
+
+### Accessing the GraphQL Playground
+Once the project is running, open your browser and go to the following URL to access the GraphQL:
+
+```bash
+$ http://localhost:PORT/graphql
+```
