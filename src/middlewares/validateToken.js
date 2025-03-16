@@ -11,7 +11,6 @@ export const validateToken = async (req, res, next) => {
   jwt.verify(accessToken, process.env.JWT_SECERT, async (err, decoded) => {
     if (err) return next(createError(401, 'Access token is not valid'));
 
-    // Перевірка на наявність поля user в decoded токені
     if (!decoded || !decoded.user || !decoded.user.id) {
       return next(createError(401, 'Access token is not valid'));
     }
