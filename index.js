@@ -20,6 +20,8 @@ import resolvers from './src/graphql/resolvers.js';
 await connectDB();
 
 const app = express();
+app.disable('x-powered-by');
+
 app.use(express.json());
 app.use(cors({
   origin: 'http://localhost:4200',
