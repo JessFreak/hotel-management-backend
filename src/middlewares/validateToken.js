@@ -8,11 +8,16 @@ export const validateToken = async (req, res, next) => {
     return next(createError(401, 'User is not authorized'));
   }
 
-  jwt.verify(accessToken, process.env.JWT_SECERT, async (err, { user: { id }}) => {
-    if (err) next(createError(401, 'Access token is not valid'));
+  jwt.verify(accessToken, process.env.JWT_SECERT, async (err, decoded) => {
+    if (err) return next(createError(401, 'Access token is not valid'));
 
-    const user = await User.findById(id);
-    if (!user) next(createError(404, 'User not found'));
+    // Перевірка на наявність поля user в decoded токені
+    if (!decoded || !decoded.user || !decoded.user.id) {
+      return next(createError(401, 'Access token is not valid'));
+    }
+
+    const user = await User.findById(decoded.user.id);
+    if (!user) return next(createError(404, 'User not found'));
 
     req.user = user;
     next();
